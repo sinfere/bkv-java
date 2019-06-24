@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.2.0'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+//apply plugin: 'org.junit.platform.gradle.plugin'
+
+group 'com.dix.codec'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+}
+
+test {
+    useJUnitPlatform {
+        // includeTags 'fast', 'smoke & feature-a'
+        // excludeTags 'slow', 'ci'
+        includeEngines 'junit-jupiter'
+        // excludeEngines 'junit-vintage'
+    }
+}
