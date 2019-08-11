@@ -1,6 +1,8 @@
 package com.dix.codec.bkv;
 
 import com.dix.codec.bkv.exception.UnpackKVFailException;
+import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class BKV {
         this.add(kv);
     }
 
+    @Nullable
     public KV get(String key) {
         for (KV kv : kvs) {
             if (kv.isStringKey() && kv.getStringKey().equals(key)) {
@@ -34,6 +37,7 @@ public class BKV {
         return null;
     }
 
+    @Nullable
     public KV get(long key) {
         for (KV kv : kvs) {
             if (!kv.isStringKey() && (kv.getNumberKey() == key)) {
@@ -44,10 +48,12 @@ public class BKV {
         return null;
     }
 
+    @Nullable
     public KV get(int index) {
         return this.kvs.get(index);
     }
 
+    @Nullable
     public Long getNumberValue(String key) {
         KV kv = get(key);
         if (kv == null) {
@@ -57,6 +63,7 @@ public class BKV {
         return kv.getNumberValue();
     }
 
+    @Nullable
     public Long getNumberValue(long key) {
         KV kv = get(key);
         if (kv == null) {
@@ -66,6 +73,7 @@ public class BKV {
         return kv.getNumberValue();
     }
 
+    @Nullable
     public String getStringValue(String key) {
         KV kv = get(key);
         if (kv == null) {
@@ -75,6 +83,7 @@ public class BKV {
         return kv.getStringValue();
     }
 
+    @Nullable
     public String getStringValue(long key) {
         KV kv = get(key);
         if (kv == null) {
