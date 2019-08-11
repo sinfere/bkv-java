@@ -1,8 +1,7 @@
 package com.dix.codec.bkv;
 
 import com.dix.codec.bkv.exception.UnpackKVFailException;
-import jdk.internal.jline.internal.Nullable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
