@@ -20,6 +20,11 @@ public class BKV {
         this.add(kv);
     }
 
+    public void add(int key, byte[] value) {
+        KV kv = new KV(key, value);
+        this.add(kv);
+    }
+
     public void add(String key, byte[] value) {
         KV kv = new KV(key, value);
         this.add(kv);
@@ -37,6 +42,11 @@ public class BKV {
     }
 
     @Nullable
+    public KV get(int key) {
+        return get((long)key);
+    }
+
+    @Nullable
     public KV get(long key) {
         for (KV kv : kvs) {
             if (!kv.isStringKey() && (kv.getNumberKey() == key)) {
@@ -48,7 +58,7 @@ public class BKV {
     }
 
     @Nullable
-    public KV get(int index) {
+    public KV getByIndex(int index) {
         return this.kvs.get(index);
     }
 
@@ -97,8 +107,17 @@ public class BKV {
     }
 
     public boolean containsKey(Object key) {
+        Object validKey;
+        if (key instanceof Integer) {
+            validKey = ((Integer) key).longValue();
+        } else if (key instanceof Long || key instanceof String) {
+            validKey = key;
+        } else {
+            return false;
+        }
+
         for (KV kv : kvs) {
-            if (kv.getKey().equals(key)) {
+            if (kv.getKey().equals(validKey)) {
                 return true;
             }
         }

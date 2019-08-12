@@ -12,6 +12,11 @@ public class KV {
     private byte[] key;
     private byte[] value;
 
+    public KV(int key, byte[] value) {
+        this.key = CodecUtil.encodeNumber(key);
+        this.value = value;
+    }
+
     public KV(long key, byte[] value) {
         this.key = CodecUtil.encodeNumber(key);
         this.value = value;

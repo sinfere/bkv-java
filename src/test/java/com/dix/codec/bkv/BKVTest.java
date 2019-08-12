@@ -24,16 +24,22 @@ class BKVTest {
         assertEquals(0, unpackBKVResult.getRemainingBuffer().length);
 
         BKV bkv = unpackBKVResult.getBKV();
-        assertEquals("Hello, world", bkv.get(0).getStringValue());
-        assertEquals(2, bkv.get(0).getNumberKey());
+        bkv.dump();
 
-        assertEquals("030405", CodecUtil.bytesToHex(bkv.get(1).getValue()));
-        assertEquals(2, bkv.get(1).getNumberKey());
+        assertTrue(bkv.containsKey(2));
+        assertTrue(bkv.containsKey(99));
+        assertFalse(bkv.containsKey(2.0));
 
-        assertEquals("012", bkv.get(2).getStringValue());
-        assertEquals("dd", bkv.get(2).getStringKey());
+        assertEquals("Hello, world", bkv.getByIndex(0).getStringValue());
+        assertEquals(2, bkv.getByIndex(0).getNumberKey());
 
-        assertEquals("030405", CodecUtil.bytesToHex(bkv.get(3).getValue()));
-        assertEquals(99, bkv.get(3).getNumberKey());
+        assertEquals("030405", CodecUtil.bytesToHex(bkv.getByIndex(1).getValue()));
+        assertEquals(2, bkv.getByIndex(1).getNumberKey());
+
+        assertEquals("012", bkv.getByIndex(2).getStringValue());
+        assertEquals("dd", bkv.getByIndex(2).getStringKey());
+
+        assertEquals("030405", CodecUtil.bytesToHex(bkv.getByIndex(3).getValue()));
+        assertEquals(99, bkv.getByIndex(3).getNumberKey());
     }
 }
