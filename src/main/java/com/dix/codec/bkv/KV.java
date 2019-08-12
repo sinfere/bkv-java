@@ -13,7 +13,7 @@ public class KV {
     private byte[] value;
 
     public KV(long key, byte[] value) {
-        this.key = Util.encodeNumber(key);
+        this.key = CodecUtil.encodeNumber(key);
         this.value = value;
     }
 
@@ -38,7 +38,7 @@ public class KV {
     }
 
     public long getNumberKey() {
-        return Util.decodeNumber(this.key);
+        return CodecUtil.decodeNumber(this.key);
     }
 
     public Object getKey() {
@@ -54,7 +54,7 @@ public class KV {
     }
 
     public long getNumberValue() {
-        return Util.decodeNumber(this.value);
+        return CodecUtil.decodeNumber(this.value);
     }
 
     public byte[] getValue() {
@@ -76,7 +76,7 @@ public class KV {
             keyLengthByte |= 0x80;
         }
 
-        buffer.write(Util.encodeLength(totalLength));
+        buffer.write(CodecUtil.encodeLength(totalLength));
         buffer.write(keyLengthByte);
         buffer.write(this.key);
         buffer.write(this.value);
@@ -89,7 +89,7 @@ public class KV {
             return null;
         }
 
-        DecodeLengthResult decodeLengthResult = Util.decodeLength(buf);
+        DecodeLengthResult decodeLengthResult = CodecUtil.decodeLength(buf);
         long totalLength = decodeLengthResult.getLength();
         byte[] pb = decodeLengthResult.getRemainingBuffer(); // pb => pending parse buffer
 
