@@ -61,7 +61,7 @@ public class CodecUtil {
 
         for (byte b : buf) {
             n <<= 8;
-            n |= b;
+            n |= (b & 0xFF);
         }
 
         return n;

@@ -19,6 +19,8 @@ public class UtilTest {
     void decodeNumber() {
         Assertions.assertEquals(CodecUtil.decodeNumber(CodecUtil.hexToBytes("010203")), 0x010203);
         Assertions.assertEquals(CodecUtil.decodeNumber(CodecUtil.hexToBytes("01")), 0x001);
+        Assertions.assertEquals(CodecUtil.decodeNumber(CodecUtil.hexToBytes("FFFFFFFFFFFFFFFF")), -1);
+        Assertions.assertEquals(CodecUtil.decodeNumber(CodecUtil.hexToBytes("0191")), 401);
 
         System.out.println(CodecUtil.decodeNumber(CodecUtil.hexToBytes("0001")));
         Assertions.assertEquals(CodecUtil.decodeNumber(CodecUtil.hexToBytes("0001")), 0x01);
