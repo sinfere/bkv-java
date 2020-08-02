@@ -47,4 +47,15 @@ class KVTest {
         assertEquals(99, kv4.getNumberKey());
         assertEquals("030405", CodecUtil.bytesToHex(kv4.getValue()));
     }
+
+    @Test
+    void type() {
+        new KV("dd", 1);
+        System.out.println("-");
+        System.out.println(Integer.class.getSimpleName());
+        System.out.println(Long.class.getSimpleName());
+        System.out.println(String.class.getSimpleName());
+        byte[] a = new byte[0];
+        System.out.println(a.getClass().getSimpleName());
+    }
 }

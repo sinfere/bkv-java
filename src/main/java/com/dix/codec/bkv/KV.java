@@ -1,5 +1,6 @@
 package com.dix.codec.bkv;
 
+import com.dix.codec.bkv.exception.InvalidKeyTypeException;
 import com.dix.codec.bkv.exception.PackKVFailException;
 import com.dix.codec.bkv.exception.UnpackKVFailException;
 
@@ -8,24 +9,64 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class KV {
-    private boolean isStringKey;
-    private byte[] key;
-    private byte[] value;
+    private final boolean isStringKey;
+    private final byte[] key;
+    private final byte[] value;
 
-    public KV(int key, byte[] value) {
-        this.key = CodecUtil.encodeNumber(key);
-        this.value = value;
-    }
+    public KV(Object key, Object value) {
+        String keySimpleClassName = key.getClass().getSimpleName();
+        String valueSimpleClassName = value.getClass().getSimpleName();
 
-    public KV(long key, byte[] value) {
-        this.key = CodecUtil.encodeNumber(key);
-        this.value = value;
-    }
+        switch (keySimpleClassName) {
+            case "Integer": {
+                this.isStringKey = false;
+                Integer number = (Integer) key;
+                this.key = CodecUtil.encodeNumber(number);
+            } break;
 
-    public KV(String key, byte[] value) {
-        this.isStringKey = true;
-        this.key = key.getBytes();
-        this.value = value;
+
+            case "Long": {
+                this.isStringKey = false;
+                Long number = (Long) key;
+                this.key = CodecUtil.encodeNumber(number);
+            } break;
+
+            case "String": {
+                this.isStringKey = true;
+                String string = (String) key;
+                this.key = string.getBytes();
+            } break;
+
+            default:
+                throw new InvalidKeyTypeException("unsupported key type: " + keySimpleClassName);
+        }
+
+        switch (valueSimpleClassName) {
+            case "Integer": {
+                Integer number = (Integer) value;
+                this.value = CodecUtil.encodeNumber(number);
+            } break;
+
+
+            case "Long": {
+                Long number = (Long) value;
+                this.value = CodecUtil.encodeNumber(number);
+            } break;
+
+            case "String": {
+                String string = (String) value;
+                this.value = string.getBytes();
+            } break;
+
+            case "byte[]": {
+                assert value instanceof byte[];
+                this.value = (byte[]) value;
+            } break;
+
+            default:
+                throw new InvalidKeyTypeException("unsupported value type: " + valueSimpleClassName);
+        }
+
     }
 
     public KV(byte[] key, boolean isStringKey, byte[] value) {

@@ -15,17 +15,7 @@ public class BKV {
         this.kvs.add(kv);
     }
 
-    public void add(long key, byte[] value) {
-        KV kv = new KV(key, value);
-        this.add(kv);
-    }
-
-    public void add(int key, byte[] value) {
-        KV kv = new KV(key, value);
-        this.add(kv);
-    }
-
-    public void add(String key, byte[] value) {
+    public void add(Object key, Object value) {
         KV kv = new KV(key, value);
         this.add(kv);
     }
@@ -128,9 +118,9 @@ public class BKV {
     public void dump() {
         for (KV kv : kvs) {
             if (kv.isStringKey()) {
-                System.out.println(String.format("[BKV] kv: %s -> %s", kv.getStringKey(), CodecUtil.bytesToHex(kv.getValue())));
+                System.out.printf("[BKV] kv: %s -> %s%n", kv.getStringKey(), CodecUtil.bytesToHex(kv.getValue()));
             } else {
-                System.out.println(String.format("[BKV] kv: %d -> %s", kv.getNumberKey(), CodecUtil.bytesToHex(kv.getValue())));
+                System.out.printf("[BKV] kv: %d -> %s%n", kv.getNumberKey(), CodecUtil.bytesToHex(kv.getValue()));
             }
         }
     }

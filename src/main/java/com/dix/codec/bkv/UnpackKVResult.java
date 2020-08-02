@@ -1,7 +1,7 @@
 package com.dix.codec.bkv;
 
 public class UnpackKVResult {
-    private KV     kv;
+    private final KV kv;
     private byte[] remainingBuffer;
 
     UnpackKVResult(KV kv, byte[] remainingBuffer) {

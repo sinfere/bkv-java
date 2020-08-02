@@ -1,7 +1,7 @@
 package com.dix.codec.bkv;
 
 public class DecodeLengthResult {
-    private long   length;
+    private final long length;
     private byte[] remainingBuffer;
 
     DecodeLengthResult(long length, byte[] remainingBuffer) {

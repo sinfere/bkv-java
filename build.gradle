@@ -64,7 +64,7 @@ publishing {
 
             groupId 'com.dix.base'
             artifactId 'bkv'
-            version '0.0.5'
+            version '0.0.7'
 
             artifact publishBaseJar
 
