@@ -95,6 +95,26 @@ public class BKV {
         return kv.getStringValue();
     }
 
+    @Nullable
+    public Float getFloatValue(long key) {
+        KV kv = get(key);
+        if (kv == null) {
+            return null;
+        }
+
+        return kv.getFloatValue();
+    }
+
+    @Nullable
+    public Float getFloatValue(String key) {
+        KV kv = get(key);
+        if (kv == null) {
+            return null;
+        }
+
+        return kv.getFloatValue();
+    }
+
     public List<KV> getItems() {
         return kvs;
     }
