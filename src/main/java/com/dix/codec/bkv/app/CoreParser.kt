@@ -24,7 +24,7 @@ object CoreParser {
                 }
 
                 ParseResult.ResultInvalid -> {
-                    buf = Arrays.copyOfRange(buf, 1, buf.size)
+                    buf = buf.copyOfRange(1, buf.size)
                 }
 
                 ParseResult.ResultFatal -> {
@@ -56,7 +56,7 @@ object CoreParser {
             return ParseResult(ParseResult.ResultFatal, null, null)
         }
 
-        val pb = Arrays.copyOfRange(buf, headIndex, buf.size)
+        val pb = buf.copyOfRange(headIndex, buf.size)
         if (pb.size < 3) {
             log("frame too short")
             return ParseResult(ParseResult.ResultIncomplete, buf, null)
@@ -68,7 +68,7 @@ object CoreParser {
             return ParseResult(ParseResult.ResultIncomplete, buf, null)
         }
 
-        val bb = Arrays.copyOfRange(pb, 3, length + 2)
+        val bb = pb.copyOfRange(3, length + 2)
 
         val checksum = calculateChecksum(bb)
         if (checksum != pb[2]) {
@@ -82,7 +82,7 @@ object CoreParser {
             return ParseResult(ParseResult.ResultInvalid, buf, null)
         }
 
-        return ParseResult(ParseResult.ResultOK, Arrays.copyOfRange(pb, length + 2, pb.size), unpackBKVResult.bkv)
+        return ParseResult(ParseResult.ResultOK, pb.copyOfRange(length + 2, pb.size), unpackBKVResult.bkv)
 
     }
 

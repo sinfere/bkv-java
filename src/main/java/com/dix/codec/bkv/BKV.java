@@ -16,6 +16,9 @@ public class BKV {
     }
 
     public void add(Object key, Object value) {
+        if (value == null) {
+            return;
+        }
         KV kv = new KV(key, value);
         this.add(kv);
     }
@@ -142,13 +145,15 @@ public class BKV {
             }
 
             try {
-                // System.out.println(String.format("packing: %s", CodecUtil.bytesToHex(buf)));
+                // System.out.println(String.format("unpacking: %s", CodecUtil.bytesToHex(buf)));
                 UnpackKVResult unpackKVResult = KV.unpack(buf);
                 if (unpackKVResult == null) {
                     return new UnpackBKVResult(bkv, null);
                 }
                 if (unpackKVResult.getKV() != null) {
-                    bkv.add(unpackKVResult.getKV());
+                    KV kv = unpackKVResult.getKV();
+                    // System.out.println(String.format("%s -> %s", kv.getKey(), kv.getStringValue()));
+                    bkv.add(kv);
                 }
                 buf = unpackKVResult.getRemainingBuffer();
             } catch (UnpackKVFailException e) {

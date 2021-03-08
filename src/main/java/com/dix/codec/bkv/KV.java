@@ -6,6 +6,8 @@ import com.dix.codec.bkv.exception.UnpackKVFailException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 public class KV {
@@ -63,6 +65,14 @@ public class KV {
                 this.value = (byte[]) value;
             } break;
 
+            case "Float": {
+                Float f = (Float) value;
+                ByteBuffer buffer = ByteBuffer.allocate(4);
+                buffer.order(ByteOrder.BIG_ENDIAN);
+                buffer.putFloat(0, f);
+                this.value = buffer.array();
+            } break;
+
             default:
                 throw new InvalidKeyTypeException("unsupported value type: " + valueSimpleClassName);
         }
@@ -101,6 +111,12 @@ public class KV {
 
     public long getNumberValue() {
         return CodecUtil.decodeNumber(this.value);
+    }
+
+    public float getFloatValue() {
+        ByteBuffer buffer = ByteBuffer.wrap(this.value);
+        buffer.order(ByteOrder.BIG_ENDIAN);
+        return buffer.getFloat();
     }
 
     public byte[] getValue() {
