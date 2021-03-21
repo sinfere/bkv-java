@@ -1,6 +1,7 @@
 package com.dix.codec.bkv;
 
 import com.dix.codec.bkv.exception.InvalidKeyTypeException;
+import com.dix.codec.bkv.exception.InvalidValueTypeException;
 import com.dix.codec.bkv.exception.PackKVFailException;
 import com.dix.codec.bkv.exception.UnpackKVFailException;
 
@@ -73,6 +74,15 @@ public class KV {
                 this.value = buffer.array();
             } break;
 
+            case "Boolean": {
+                Boolean v = (Boolean) value;
+                int n = 0;
+                if (v) {
+                    n = 1;
+                }
+                this.value = CodecUtil.encodeNumber(n);
+            } break;
+
             default:
                 throw new InvalidKeyTypeException("unsupported value type: " + valueSimpleClassName);
         }
@@ -85,7 +95,7 @@ public class KV {
         this.value = value;
     }
 
-    public boolean isStringKey() {
+    public Boolean isStringKey() {
         return this.isStringKey;
     }
 
@@ -93,7 +103,7 @@ public class KV {
         return new String(this.key);
     }
 
-    public long getNumberKey() {
+    public Long getNumberKey() {
         return CodecUtil.decodeNumber(this.key);
     }
 
@@ -109,14 +119,23 @@ public class KV {
         return new String(this.value);
     }
 
-    public long getNumberValue() {
+    public Long getNumberValue() {
         return CodecUtil.decodeNumber(this.value);
     }
 
-    public float getFloatValue() {
+    public Float getFloatValue() {
         ByteBuffer buffer = ByteBuffer.wrap(this.value);
         buffer.order(ByteOrder.BIG_ENDIAN);
         return buffer.getFloat();
+    }
+
+    public Boolean getBooleanValue() {
+        int v = getNumberValue().intValue();
+        switch (v) {
+            case 0: return false;
+            case 1: return true;
+            default: throw new InvalidValueTypeException();
+        }
     }
 
     public byte[] getValue() {

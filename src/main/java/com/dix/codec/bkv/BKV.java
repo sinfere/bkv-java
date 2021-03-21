@@ -119,6 +119,26 @@ public class BKV {
         return kv.getFloatValue();
     }
 
+    @Nullable
+    public Boolean getBooleanValue(long key) {
+        KV kv = get(key);
+        if (kv == null) {
+            return null;
+        }
+
+        return kv.getBooleanValue();
+    }
+
+    @Nullable
+    public Boolean getBooleanValue(String key) {
+        KV kv = get(key);
+        if (kv == null) {
+            return null;
+        }
+
+        return kv.getBooleanValue();
+    }
+
     public List<KV> getItems() {
         return kvs;
     }

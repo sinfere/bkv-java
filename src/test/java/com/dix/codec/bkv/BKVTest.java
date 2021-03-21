@@ -105,6 +105,25 @@ class BKVTest {
         assertEquals("078266313DCCCCCD0601013E4CCCCD", CodecUtil.bytesToHex(bkv.pack()));
     }
 
+    @Test
+    void testBoolean() throws IOException {
+        BKV bkv = new BKV();
+        bkv.add("true", true);
+        bkv.add("false", false);
+
+        String hex = CodecUtil.bytesToHex(bkv.pack());
+        System.out.println("bkv: " + hex);
+
+        BKV nb = BKV.unpack(bkv.pack()).getBKV();
+
+        assertEquals(true, nb.getBooleanValue("true"));
+        assertEquals(false, nb.getBooleanValue("false"));
+
+        assertEquals(1L, nb.getNumberValue("true"));
+        assertEquals(0L, nb.getNumberValue("false"));
+
+    }
+
 //    @Test
 //    void testParseContextBKV() {
 //        byte[] buf = CodecUtil.hexToBytes("0884636F6465363034158F6D6F7574685F73636F72655F315F31302E303030158F6D6F7574685F73636F72655F315F32302E303030158F6D6F7574685F73636F72655F325F31302E303030158F6D6F7574685F73636F72655F325F32302E3030300B84726F6C6C2D302E3733330B857069746368322E3431320983796177302E383738108E62675F736966745F6B705F636E7432138F616C6C5F736966745F6B705F636E7431333819936C6566745F73686F756C6465725F6B5F646567302E3030301A9472696768745F73686F756C6465725F6B5F646567302E303030FFFFFFA9671BFD71");

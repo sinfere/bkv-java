@@ -59,5 +59,7 @@ class KVTest {
         System.out.println(String.class.getSimpleName());
         byte[] a = new byte[0];
         System.out.println(a.getClass().getSimpleName());
+        Boolean b = true;
+        System.out.println(b.getClass().getSimpleName());
     }
 }
