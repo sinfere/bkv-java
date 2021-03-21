@@ -23,6 +23,10 @@ public class BKV {
         this.add(kv);
     }
 
+    public void add(BKV bkv) {
+        this.kvs.addAll(bkv.getItems());
+    }
+
     @Nullable
     public KV get(String key) {
         for (KV kv : kvs) {
