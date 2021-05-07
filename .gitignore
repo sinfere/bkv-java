@@ -19,3 +19,7 @@ build/
 out/
 
 dist/
+
+gradle
+gradlew
+gradlew.bat

@@ -139,6 +139,26 @@ public class BKV {
         return kv.getBooleanValue();
     }
 
+    public List<Long> getNumberValueList(long key) {
+        List<Long> valueList = new ArrayList<>();
+        for (KV kv : kvs) {
+            if (!kv.isStringKey() && kv.getNumberKey().equals(key)) {
+                valueList.add(kv.getNumberValue());
+            }
+        }
+        return valueList;
+    }
+
+    public List<Long> getNumberValueList(String key) {
+        List<Long> valueList = new ArrayList<>();
+        for (KV kv : kvs) {
+            if (kv.isStringKey() && kv.getStringKey().equals(key)) {
+                valueList.add(kv.getNumberValue());
+            }
+        }
+        return valueList;
+    }
+
     public List<KV> getItems() {
         return kvs;
     }

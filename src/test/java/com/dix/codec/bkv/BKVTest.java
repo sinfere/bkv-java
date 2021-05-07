@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,6 +123,52 @@ class BKVTest {
         assertEquals(1L, nb.getNumberValue("true"));
         assertEquals(0L, nb.getNumberValue("false"));
 
+    }
+
+    @Test
+    void testNumberListStringKey() throws IOException {
+        BKV bkv = new BKV();
+
+        int size = 100;
+
+        for (int i = 0; i < size; i++) {
+            bkv.add("dd", i);
+        }
+
+        String hex = CodecUtil.bytesToHex(bkv.pack());
+        System.out.println("bkv: " + hex);
+
+        BKV nb = BKV.unpack(bkv.pack()).getBKV();
+
+        List<Long> valueList = nb.getNumberValueList("dd");
+
+        assertEquals(size, valueList.size());
+        for (int i = 0; i < size; i++) {
+            assertEquals(i, valueList.get(i));
+        }
+    }
+
+    @Test
+    void testNumberListNumberKey() throws IOException {
+        BKV bkv = new BKV();
+
+        int size = 100;
+
+        for (int i = 0; i < size; i++) {
+            bkv.add(0x3, i);
+        }
+
+        String hex = CodecUtil.bytesToHex(bkv.pack());
+        System.out.println("bkv: " + hex);
+
+        BKV nb = BKV.unpack(bkv.pack()).getBKV();
+
+        List<Long> valueList = nb.getNumberValueList(0x3);
+
+        assertEquals(size, valueList.size());
+        for (int i = 0; i < size; i++) {
+            assertEquals(i, valueList.get(i));
+        }
     }
 
 //    @Test
